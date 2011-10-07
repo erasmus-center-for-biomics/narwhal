@@ -13,7 +13,8 @@
 usage() {
     echo $1
     echo "
-Usage: workflow.sh -j [maxjobs] -p [profile] RUNFOLDER
+Usage: run_tools.sh -j [maxjobs] RUNFOLDER
+
 
 
 "
@@ -30,19 +31,20 @@ align="${idir}tools/align.py"			# the location of the alignment script
 profile="${idir}conf/profiles.json"		# the default location for the profiles
 MAXJOBS=8					# run at most 8 parallel processes
 RUNFOLDER=""					# the run folder to write the results in 
+mismatches=0
 
 echo "`date` Started"
 
 #
 # PARSE THE OPTIONS
 #
-while getopts 'j:' opt; do
+while getopts 'j:m:' opt; do
     case $opt in
         'j')
             MAXJOBS=$OPTARG
             ;; 
-        'p')
-            profile=$OPTARG
+        'm')
+            mismatches=$OPTARG
             ;;
     esac
 done
@@ -99,7 +101,7 @@ fi
 optfile="$( find $RUNFOLDER -name 'demultiplex_index.param' )"
 if [[ -f $optfile ]] && [[ $(wc -l $optfile) > 0 ]] ; then
 	echo "`date` Indexing multiplexed FastQ files from ${optfile}"
-        parallel -a $optfile --colsep ';' -j $MAXJOBS demultiplex index -f {1}  -i {2} -b {3} -s {4} -c {5} 
+        parallel -a $optfile --colsep ';' -j $MAXJOBS demultiplex index -f {1}  -i {2} -b {3} -s {4} -c {5} -m $mismatches
 fi
 
 # Divide the reads 
