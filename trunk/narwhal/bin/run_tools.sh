@@ -66,7 +66,7 @@ export PYTHONPATH=$PYTHONPATH:"${idir}/lib/python/"
 # PREFLIGHT CHECKS
 #
 # determine whether the neccessary tools are in the path
-tools=( nice cat sync qseq2fastq samtools demultiplex bamstats)
+tools=( nice cat sync qseq2fastq samtools demultiplex bamstats parallel)
 for t in ${tools[@]} ; do
     which $t > /dev/null 2> /dev/null
     (( $? != 0 )) && usage "Tool ${t} is not present in the PATH" 
