@@ -1,0 +1,66 @@
+{ 
+	"chipseq" : {
+		"tool" : "bowtie",
+		"options" : {
+			"--best" : "",
+			"-p" : 8, 
+			"-l" : 32, 
+			"-n" : 2,
+                        "-M" : 1
+			}
+	},		 
+	"4C" :  {
+		"tool" : "bowtie", 
+		"options" : {
+			"--best" : "",
+			"-p"  : 8,
+			"-l"  : 32,
+			"-n"  : 2,
+                        "-M"  : 1
+			}
+	},
+	"genome" : {
+		"tool" : "bwa",
+		"options" : {
+			"aln" : {
+				"-t" : 8,
+				"-l" : 32,
+				"-k" : 2
+			},
+			"samse" : {
+				} 
+			},
+			"sampe" : {}
+	},
+        "snp" : {
+                "tool" : "bwa",
+                "options" : {
+                        "aln" : {
+                                "-t" : 8,
+                                "-l" : 32,
+                                "-k" : 2
+                        },
+                        "samse" : {
+                                }
+                        },
+			"sampe" : {}
+        },
+        "snpIll" : {
+                "tool" : "bwa",
+                "options" : {
+                        "aln" : {
+                                "-t" : 8,
+                                "-l" : 32,
+                                "-k" : 2,
+				"-I" : ""
+                        },
+                        "samse" : {
+                                }
+                        }, 
+			"sampe":{}
+        },
+	"none" : {
+		"tool" : "none",
+		"options" : {}
+		}
+}
