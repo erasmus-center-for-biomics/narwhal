@@ -24,8 +24,9 @@ Usage: run_tools.sh -j [maxjobs] RUNFOLDER
 
 # VARIABLES
 #
-x=$( readlink -f $0 ) 				# a temporary variable to hold the absolute path to the script 
-idir=${x%bin/run_tools.sh}			# the install directory
+idir=$( readlink -f $0 )
+idir=$( dirname $idir )
+idir=${idir/%bin/}
 
 align="${idir}tools/align.py"			# the location of the alignment script
 profile="${idir}conf/profiles.json"		# the default location for the profiles
