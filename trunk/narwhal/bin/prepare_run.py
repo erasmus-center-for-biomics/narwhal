@@ -108,6 +108,49 @@ def _read_sample_sheet( fname ):
     # 
     return retval 
 
+def _read_fastq_sample_sheet( fname ):
+    '''
+    Read a sample sheet and return the data
+
+    Args:
+
+
+    Returns:
+
+
+    '''
+    retval = []
+    f      = open( fname, 'rU' )
+
+    for l in f:
+        l = l.rstrip()
+        # parse the header and fill the column mapping
+        if l == '':
+           pass
+        elif l[0] == '#':
+            pass
+        # parse the file contents
+        else:
+            s = l.split( "\t" )  # split the sample-sheet line on whitespace characters
+            if len(s) >= 5:
+                d = {
+                    'id'                    : s[0],
+                    'files'                 : s[1].split(','),
+                    'alignment.reference'   : s[2],
+                    'alignment.paired_end'  : s[3],
+                    'alignment.application' : s[4],
+                    'alignment.options'     : [] #s[9].split(',')
+                }
+                if len(s) == 6:
+                    d['alignment.options'] = s[5].split(',')
+                retval.append( (s[0],d) )
+            else:
+                 logging.fatal( "A line in the samplesheet could not be parsed:\n%s " % l )
+    #
+    return retval
+
+
+
 #
 #
 #
@@ -495,14 +538,18 @@ def _get_info( fname ):
       fname   a file name
 
     Returns:
-      the lane and read information
+      the lane and read information. If these can not be determined 
+      return NA for both
     '''
+    lane = 'NA'
+    read = 'NA'
     obj = re.match( '.*s_(\d)_(\d)_.*', fname )
-    if not obj: return None
+    if obj:
+        lane = obj.group(1)
+        read = obj.group(2) 
 
-    lane = obj.group(1)
-    read = obj.group(2) 
-    return( lane, read )
+    # return the lane and read information
+    return ( lane, read )
 
 
 
@@ -746,18 +793,47 @@ def usage( message, error=None ):
     print """
 %s
 
-Usage: %s -s <samplesheet> <Basecalls directory> <Working directory>
 
-""" % (message, sys.argv[0])
+Usage:
+
+There are two use cases for this software. In the first use-case reads are obtained directly from the BaseCalls directory of the run folder. When reads are directly obtained from the BaseCalls folder,Narwhal is able to make its own unique run-folder. In this case a
+working directory is required.
+
+1A) python %s -s <sample-sheet> <Basecalls directory> <Working directory>
+
+The output folder can also be explicitely set by using the -o option 
+
+1B) python %s -s <sample-sheet> -o <output directory> <Basecalls directory> 
+
+Narwhal can also process previously constructed FastQ files. In this case, a differently formatted sample-sheet is required. To run
+Narwhal in this mode, the "-f flag" should be provided.
+
+2) python %s -fs <sample-sheet> -o <output directory>
+
+Options:
+-s/--samplesheet	the samplesheet
+-o/--outdir		the output directory
+-f/--fastq-input	use Narwhal in FastQ mode
+-D/--DRYRUN		perform a DRYRUN only
+-h/--help		display the help message
+
+<Basecalls directory> 	the directory containing the Illumina QseQ files
+<Working directory>	the directory in which Narwhal should create a new run folder
+
+
+""" % (message, sys.argv[0],sys.argv[0],sys.argv[0])
     if error: sys.exit( error )
 
 
 
 if __name__ == '__main__':
 
+    FROM_FASTQ  = False 
+
     args = []
     d_basecalls = None 
     d_workdir   = None
+    d_outdir    = None
     f_samplesh  = None
 
     # setup the logger so we can log what happens
@@ -769,7 +845,7 @@ if __name__ == '__main__':
     # parse the options
     #
     try:
-        opts, args = getopt.getopt( sys.argv[1:], "hs:D", ["help", "samplesheet", "DRYRUN"] )
+        opts, args = getopt.getopt( sys.argv[1:], "o:fhs:D", ["outdir", "fastq-input", "help", "samplesheet", "DRYRUN"] )
 
         for o,a in opts:
             if o in ('-s', '--samplesheet'):
@@ -778,7 +854,10 @@ if __name__ == '__main__':
             if o in ('-D', '--DRYRUN'):
                 # determine whether we are doing a dry run
                 DRYRUN = True
-
+            if o in ('-f','--fastq-input'):
+                FROM_FASTQ = True
+            if o in ('-o','--outdir'):
+                d_outdir = os.path.abspath(a)
 
     except getopt.GetoptError, err:
         usage( str(err), error=2 )
@@ -793,6 +872,13 @@ if __name__ == '__main__':
    
         if not os.path.exists( d_basecalls ):
             usage( 'basecall directory (%s) does not exist' % d_basecalls, error=2 )
+    elif FROM_FASTQ :
+        if not os.path.exists( d_outdir ):
+            usage( 'Output directory (%s) does not exist' % d_outdir, error=2 )
+    elif d_outdir != None and len(args) == 1:
+        d_basecalls = os.path.abspath( args[0] )
+        if not os.path.exists( d_basecalls ):
+            usage( 'basecall directory (%s) does not exist' % d_basecalls, error=2 )
     else:
         usage( 'The BaseCalls and WorkDir arguments are not defined', error=2 )
 
@@ -800,36 +886,49 @@ if __name__ == '__main__':
     #
     # start the workflow
     # 
+    if not FROM_FASTQ:
+        # get the new working directory
+        if d_outdir == None:
+            dn_flowc = _get_flowcell_dirname( d_basecalls )
+            d_outdir = _outdir( d_workdir, dn_flowc )
 
-    # get the new working directory
-    dn_flowc = _get_flowcell_dirname( d_basecalls )
-    d_outdir = _outdir( d_workdir, dn_flowc )
-    logging.info( "Output will be written to %s" % d_outdir )
+        logging.info( "Output will be written to %s" % d_outdir )
 
 
-    # read the sample sheet
-    a_samples = _read_sample_sheet( f_samplesh )     
-    logging.info( "%d Samples parsed from samplesheet %s" %(len(a_samples), f_samplesh) )    
+        # read the sample sheet
+        a_samples = _read_sample_sheet( f_samplesh )     
+        logging.info( "%d Samples parsed from samplesheet %s" %(len(a_samples), f_samplesh) )    
 
-    # create the directory structure
-    odirs = create_dir_structure( d_outdir, sampleids=[ s[0] for s in a_samples] ) 
-    logging.info( "Created %d output directories" % len(odirs) )
+        # create the directory structure
+        odirs = create_dir_structure( d_outdir, sampleids=[ s[0] for s in a_samples] ) 
+        logging.info( "Created %d output directories" % len(odirs) )
 
-    # make the list file that will govern the qseq to fastq conversion 
-    a_qseq  = _get_qseq_paths( d_basecalls )
-    a_fastq = _qseq_fastq_lst( odirs[0], a_qseq )
-    logging.info( "Prepared %d QseQ to FastQ conversions" % len(a_fastq) )
+        # make the list file that will govern the qseq to fastq conversion 
+        a_qseq  = _get_qseq_paths( d_basecalls )
+        a_fastq = _qseq_fastq_lst( odirs[0], a_qseq )
+        logging.info( "Prepared %d QseQ to FastQ conversions" % len(a_fastq) )
     
-    # make the list file that will govern the sample demultiplexing
-    a_sfastq = _process_singleplexes( odirs[1], a_fastq, a_samples )
-    a_dindex, a_dfastq = _process_multiplexes( odirs[1], a_fastq, a_samples )
-    logging.info( "Prepared singleplex mergere to %d FastQ files" % len(a_sfastq) )
-    logging.info( "Prepared demultiplexing and mergere to %d FastQ files from %d index files" % (len(a_dfastq), len(a_dindex)) )    
+        # make the list file that will govern the sample demultiplexing
+        a_sfastq = _process_singleplexes( odirs[1], a_fastq, a_samples )
+        a_dindex, a_dfastq = _process_multiplexes( odirs[1], a_fastq, a_samples )
+        logging.info( "Prepared singleplex mergere to %d FastQ files" % len(a_sfastq) )
+        logging.info( "Prepared demultiplexing and mergere to %d FastQ files from %d index files" % (len(a_dfastq), len(a_dindex)) )    
+     
+        # 
+        a_fastq = []
+        [a_fastq.append( t )  for t in a_sfastq ]
+        [a_fastq.append( t )  for t in a_dfastq ]
+    else :
+        # 
+        logging.info( "Running NARWHAL in FastQ mode" )
+        logging.info( "Output will be written to %s" % d_outdir )
+        a_samples = _read_fastq_samplesheet( f_samplesh ) 
+        odirs     = create_dir_structure( d_outdir, sampleids=[ s[0] for s in a_samples] ) 
 
-    # 
-    a_fastq = []
-    [a_fastq.append( t )  for t in a_sfastq ]
-    [a_fastq.append( t )  for t in a_dfastq ]
+        # prepare the FastQ files
+        a_fastq = []
+        for s in a_samples:
+            [ a_fastq.append( (s[0], f) ) for f in s[1] ]
    
     # make the options files for the alignments
     a_samf = _prepare_alignment_options( odirs[2], a_fastq, a_samples )  
@@ -840,9 +939,6 @@ if __name__ == '__main__':
     a_pdf  = _prepare_stats( odirs[3], a_bamf )
     logging.info( "Prepared file conversions and statistics for %d and %d BAM files" % (len(a_bamf),len(a_pdf) ))
     logging.info( "Finished %s" % sys.argv[0] )
-
-    #[sys.stdout.write( "%s\n" % str(x)) for x in a_bamf]
-    #[sys.stdout.write( "%s\n" % str(x)) for x in a_pdf]
 
 
     # 

@@ -6,6 +6,8 @@ A tool to perform sequence trimming from the 3\' end
 
 '''
 
+import logging
+
 #
 # a function to perform the seeded trimming
 #
@@ -32,33 +34,46 @@ def seeded_trim( seq, query, seed, pre='' ):
     
     # set the full sequence as the return value
     ret = pre + seq
-    
+    logging.debug( "Processing sequence %s with pre-sequence %s " % (seq, pre) )     
+
     # determine whether the seed is present in the sequence
     i = seq.find( seed )
+    logging.debug( "Seed position is character %d" % i )
     if i != -1 or seq != '':
 
         # we found the seed in the sequence, now we determine
         # whether the remaining string is present 
         mseq = seq[i:]
-        if len( query ) > len(mseq) :
+        logging.debug( "Sequence to match is %s" % mseq )
+
+        if len( query ) >= len(mseq) :
             squery = query[ 0:len(mseq) ]
+            logging.debug( "The query is longer than the sequence to match: matching to %s" % squery )
         else :
             mseq   = seq[ i:len(query) ]
             squery = query
-                
-        # test whether the match is found
-        if mseq == squery :
-            # we found a match 
-            ret = pre + seq[0:i]
-        else :
-            # recursively search for more matches
-            # but first go over the seed and proceed
-            # 
-            co  = i + len(seed)
-            if co > len(seq): co = len(seq)
-            tch = seq[ co: ]
-            ret = seeded_trim( tch, query, seed, pre=pre+seq[0:co] )
-                    
+            logging.debug( "The match sequence is shorter than the query; shortening to %s" % mseq ) 
+
+        logging.debug( "Matching %s to %s " % (squery, mseq)  ) 
+
+        if len(mseq) > len(seed):
+            
+            # test whether the match is found
+            if mseq == squery :
+                # we found a match 
+                ret = pre + seq[0:i]
+                logging.debug( "We found a match: returning %s" % ret )
+            else :
+                # recursively search for more matches
+                # but first go over the seed and proceed
+                # 
+                co  = i + len(seed) 
+                if co > len(seq): co = len(seq)
+                tch = seq[ co: ]
+                logging.debug( "No match found repeating cycle with sequence from %d ( %s )" % (co, tch) )
+                ret = seeded_trim( tch, query, seed, pre=pre+seq[0:(co)] )
+        else:
+            logging.debug( "The sequence to match is shorter than the seed-length" )
     # return the sub sequence
     return ret 
  
@@ -145,5 +160,42 @@ class TrimSeq:
 
 if __name__ == '__main__':
     print "Tests not yet implemented"
+    logging.basicConfig( level=logging.DEBUG )
+    
+    seqa  = "TGGGGGGGAGTATGCGGCCCGCACTGAGCTGCGCAT"
+    seqb  = "TGGGGGGGAGTATTGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC"
+    seqc  = "TGGGGGGGAGTATTGGAATTCTCGGGTGCCAAGGAA"
+    seqd  = "TGGGGGTGGATATTGGAATTCTCGGGTGCCAAGGAA"
+    seqe  = "TGGGGGTGGAAGGAGTATTGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC" 
+
+    query = "TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC"
+    seed  = query[0:5]
+    
+
+    logging.debug( "Query is %s" % query )
+    logging.debug( "Seed is %s" % seed )
+    logging.debug( "" )
+    logging.debug( "-NON Matching case-----------------")
+    logging.debug( "Sequence is %s" % seqa )
+    logging.debug( "Result is %s" % seeded_trim( seqa, query, seed ) )
+    logging.debug( "" )
+    logging.debug( "-Full Matching case-----------------" )
+    logging.debug( "Sequence is %s" % seqb )
+    logging.debug( "Result is %s" % seeded_trim( seqb, query, seed ) )
+    logging.debug( "" )
+    logging.debug( "-Partial Matching case-----------------" )
+    logging.debug( "Sequence is %s" % seqc )
+    logging.debug( "Result is %s" % seeded_trim( seqc, query, seed ) )
+    logging.debug( "" )
+    logging.debug( "-Multiple seed partial match case-----------------" )
+    logging.debug( "Sequence is %s" % seqd )
+    logging.debug( "Result is %s" % seeded_trim( seqd, query, seed ) )
+    logging.debug( "" )
+    logging.debug( "-Multiple seed full match case-----------------" )
+    logging.debug( "Sequence is %s" % seqe )
+    logging.debug( "Result is %s" % seeded_trim( seqe, query, seed ) )
+
+
+
     
     
