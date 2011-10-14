@@ -113,14 +113,17 @@ DOCUMENT='
 \\begin{center}
 \includegraphics[angle=270,width=\\textwidth]{[LENGTH]}
 \\end{center}
-\\caption{Count of reads versus the length of the read.}
+\\caption{Count of reads versus the length of the read. This number is
+calculated over all of the reads in the input}
 \\end{figure}
 
 \\begin{figure}[htb]
 \\begin{center}
 \includegraphics[angle=270,width=\\textwidth]{[REPLICATION]}
 \\end{center}
-\\caption{Count of reads versus replication number. A replication number of $n$ means that the read sequence has been sequenced $n+1$ times (so is replicated $n$ times).}
+\\caption{Count of reads versus replication number. A replication number of
+$n$ means that the read sequence has been sequenced $n+1$ times (so is
+replicated $n$ times). This distribution is determined from the aligned reads.}
 \\end{figure}
 \\end{document}' 
 
