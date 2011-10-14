@@ -90,6 +90,6 @@ mv tmp.log "${runfolder}/prepare.log"
 cp "$samplesheet" "${runfolder}/samplesheet.txt"
 
 # run the tools
-${idir}/bin/runtools.sh -j $MAXJOBS -m $mismatches $runfolder > ${runfolder}/run.log
+${idir}/bin/run_tools.sh -j $MAXJOBS -m $mismatches $runfolder > ${runfolder}/run.log
 
 echo "`date` Finished"
