@@ -14,7 +14,7 @@ Options
 -j	maximum number on concurrent processes
 -m	maximum number of mismatches allowed during demultiplexing
 -s	the samplesheet
-
+ 
 "
     exit 2	
 }
