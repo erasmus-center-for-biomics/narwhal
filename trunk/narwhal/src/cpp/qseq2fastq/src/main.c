@@ -116,15 +116,17 @@ int process_file( FILE * input, FILE * output ) {
   while( fgets( rbuffer, l_size, input ) != NULL ) {        
     // prepare the variables for the next round
     fbuffer[0] = '\0' ;
-    /*
-    i_buff[0]  = '\0' ;
-    s_buff[0]  = '\0' ;
-    q_buff[0]  = '\0' ;
-    */
+
+
+    // allocate the memmory    
     i_buff = (char *)malloc( i_size * sizeof(char) ) ;
     s_buff = (char *)malloc( s_size * sizeof(char) ) ;
     q_buff = (char *)malloc( q_size * sizeof(char) ) ;
 
+    // clean the memmory
+    i_buff[0]  = '\0' ;
+    s_buff[0]  = '\0' ;
+    q_buff[0]  = '\0' ;
 
     t_count    = 0 ; 
 
