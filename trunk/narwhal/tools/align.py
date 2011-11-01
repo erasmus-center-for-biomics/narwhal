@@ -6,6 +6,7 @@ import json
 import re
 import logging
 import subprocess
+import os
 
 from ngs.alignment import Bowtie, BWA, Tophat
 
@@ -150,15 +151,13 @@ if __name__ == '__main__' :
         #
         d_sam = os.path.dirname( fn_sam )
         aln.align( fn_ref, fn_fastq, d_sam, opt=dopt )
-
         fn_bam = os.path.join( d_sam, 'accepted_hits.bam' )
-        if os.file_exists( fn_bam ):
-             cmd = [ 'samtools', 'view' '-h', '-o', fn_sam,  fn_bam ]
+        if os.path.isfile( fn_bam ):
+             cmd = [ 'samtools', 'view', '-h', '-o', fn_sam, fn_bam ]
              ret = subprocess.call( cmd )
              if ret != 0:
                  logging.warn( "SAMtools conversion returned an error: %s" % ' '.join(cmd) )
+	     else:
+		 logging.warn( "SAMtools conversion from bam to sam OK" )
         else:
             logging.warn( "Tophat output file (%s) does not exist" % fn_bam )
-
-    
-
