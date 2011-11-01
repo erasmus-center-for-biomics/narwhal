@@ -59,6 +59,16 @@
                         }, 
 			"sampe":{}
         },
+	"rnaseq" : {
+		"tool" : "tophat",
+		"options" : {
+			"-p" : 8,
+			"--segment-length" : 18,
+			"--coverage-search" : "",
+			"--butterfly-search" : "",
+			"--segment-mismatches" : 1
+		}
+	},
 	"none" : {
 		"tool" : "none",
 		"options" : {}

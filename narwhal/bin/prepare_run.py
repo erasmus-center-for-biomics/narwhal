@@ -139,7 +139,7 @@ def _read_fastq_sample_sheet( fname ):
                     'alignment.reference'   : s[2],
                     'alignment.paired_end'  : s[3],
                     'alignment.application' : s[4],
-                    'alignment.options'     : [] #s[9].split(',')
+                    'alignment.options'     : []
                 }
                 if len(s) == 6:
                     d['alignment.options'] = s[5].split(',')
@@ -922,13 +922,13 @@ if __name__ == '__main__':
         # 
         logging.info( "Running NARWHAL in FastQ mode" )
         logging.info( "Output will be written to %s" % d_outdir )
-        a_samples = _read_fastq_samplesheet( f_samplesh ) 
+        a_samples = _read_fastq_sample_sheet( f_samplesh ) 
         odirs     = create_dir_structure( d_outdir, sampleids=[ s[0] for s in a_samples] ) 
 
         # prepare the FastQ files
         a_fastq = []
         for s in a_samples:
-            [ a_fastq.append( (s[0], f) ) for f in s[1] ]
+            [ a_fastq.append( (s[0], f) ) for f in s[1]['files'] ]
    
     # make the options files for the alignments
     a_samf = _prepare_alignment_options( odirs[2], a_fastq, a_samples )  

@@ -89,12 +89,11 @@ class Tophat(Aligner):
                 logging.warn( 'Output folder %s is not empty' % outdir )
                 return None
 		
-        retval = None
 
         # build the tophat command
         cmd = [ ]
         cmd.append( self._locs['nice'] )        
-        cmd.append( self._locs['bowtie'] )
+        cmd.append( self._locs['tophat'] )
 
 	# options from the profiles and/or samplesheet should include -G
 	# check if the annotation specified with -G exists.
@@ -109,10 +108,14 @@ class Tophat(Aligner):
 	cmd = self._add_options( cmd, opt )
 
 	# add the output location
-	cmd.append( ['-o', outdir] ) 
+	cmd.append( '-o' ) 
+        cmd.append( outdir )
 
-	# add the reference genome (index)
-        cmd.append( self._index )
+	# check and add the reference genome (index)
+	if not self.is_available(index):
+	    logging.warn ('Reference genome %s is not available' % index)
+	    return None
+        cmd.append( index )
 
 	# add the input fastq file(s)
         if len( infiles ) == 1:
@@ -126,59 +129,11 @@ class Tophat(Aligner):
             logging.warn( 'Incorrect number of input files' )
             return None
         
-	# run bowtie
-        (err,pout,perr) = self._subprocess( cmd, stdout=self._samfile )
-        return retval
-        
-            
-    def _SingleRead( self, opt={} ):
-        '''
-
-        '''
-        cmd = [ ]
-        cmd.append( self._locs['nice'] )        
-        cmd.append( self._locs['bowtie'] )
-        cmd = self._add_options( cmd, opt )
-        cmd.append( '-S' )
-        
-        # add the index        
-        cmd.append( self._index )
-        
-        # add the input fastq file
-        cmd.append( os.path.abspath(self._infile) )
-
-        # run bowtie
-        (err,pout,perr) = self._subprocess( cmd, stdout=self._samfile )
-
-        #
-        return (err,pout,perr)
-
-        
-    def _PairedEnd( self, opt={} ):
-        '''
-
-        '''
-        cmd = [ ]
-        cmd.append( self._locs['nice'] )        
-        cmd.append( self._locs['bowtie'] )
-        cmd = self._add_options( cmd, opt )
-
-       # add the index
-        cmd.append( self._index )
-        
-        # add the paired end input files
-        cmd.append( '-1' )
-        cmd.append( self._infile[0] )        
-        cmd.append( '-2' )
-        cmd.append( self._infile[1] )
-
-        # run bowtie
-        (err,pout,perr) = self._subprocess( cmd, stdout=self._samfile ) 
-    
-        #
+	# run tophat
+        outfile='%s/tophat.log' % outdir
+        (err,pout,perr) = self._subprocess( cmd, stdout=outfile )
         return (err,pout,perr)
   
- 
 if __name__ == '__main__' :
 
     pass       
