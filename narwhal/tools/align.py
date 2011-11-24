@@ -96,9 +96,11 @@ if __name__ == '__main__' :
     aopt     = []
     fn_prof  = None
     allprof  = {}
+    debug    = False
 
     # parse the command line options
-    opts, args = getopt.getopt( sys.argv[1:], 'p:f:s:r:o:t:P:', ['profiles', 'fastq','sam','reference', 'options', 'type', 'paired_end'] )
+    opts, args = getopt.getopt( sys.argv[1:], 'p:f:s:r:o:t:P:D', ['profiles', 'fastq','sam','reference', 'options', 'type',
+'paired_end', 'debug'] )
     for (k,v) in opts:
         if k in ('-p', '--profiles'): 
             f = open( v, 'r' )
@@ -118,6 +120,21 @@ if __name__ == '__main__' :
                 aopt = v.split(',')
         if k in ('-P', '--paired_end'):
             if v.lower() in ('true','yes','1'): pe = True 
+        if k in ('-D', '--debug')
+            debug = True
+    if debug:
+        print "Command line options:" 
+        for (k,v) in opts:
+            print "\t%s\t%s" % (str(k), str(v))
+        print "\nprofiles:"
+        for k in allprof.keys():
+            print "\t%s" % str(k)
+
+        print "profile: %s" % prof
+        print "FastQ: %s" % ','.join( fn_fastq )
+        print "reference: %s" % fn_ref
+        print "SAM file: %s" % fn_sam
+        
 
     # check the command line options
     if len(fn_fastq) == 0: usage( "No FastQ files provided" , error=2 )
