@@ -120,7 +120,7 @@ if __name__ == '__main__' :
                 aopt = v.split(',')
         if k in ('-P', '--paired_end'):
             if v.lower() in ('true','yes','1'): pe = True 
-        if k in ('-D', '--debug')
+        if k in ('-D', '--debug'):
             debug = True
     if debug:
         print "Command line options:" 
