@@ -102,8 +102,10 @@ if __name__ == '__main__' :
     opts, args = getopt.getopt( sys.argv[1:], 'p:f:s:r:o:t:P:D', ['profiles', 'fastq','sam','reference', 'options', 'type',
 'paired_end', 'debug'] )
     for (k,v) in opts:
+        v = unicode(v)
+        k = unicode(k)
         if k in ('-p', '--profiles'): 
-            f = open( v, 'r' )
+            f = open( v, 'rU' )
             allprof = json.load( f )
             f.close() 
         if k in ('-f', '--fastq'):
