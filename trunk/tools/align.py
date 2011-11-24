@@ -123,7 +123,7 @@ if __name__ == '__main__' :
     if fn_sam == None:  usage( "No output SAM file name provided" , error=2 )
     if fn_ref == None:  usage( "No reference file provided" , error=2 )   
     if len(allprof.keys()) == 0: usage( "No application profiles were loaded" , error=2 )
-    if prof not in allprof.keys(): usage( "Profile %s not present in profiles" % prof, error=2)
+    if prof not in allprof.keys(): usage( "Profile '%s' not present in profiles" % prof, error=2)
 
     # prepare the profiles
     prof = allprof[ prof ]
