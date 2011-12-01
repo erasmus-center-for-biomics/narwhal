@@ -79,6 +79,7 @@ def _read_sample_sheet( fname ):
 
     for l in f:
         l = l.rstrip()
+        l = re.replace( '"', '' )
         # parse the header and fill the column mapping
         if l == '':
            pass

@@ -105,7 +105,7 @@ if __name__ == '__main__' :
         v = unicode(v)
         k = unicode(k)
         if k in ('-p', '--profiles'): 
-            f = open( v, 'rU' )
+            f = open( v, 'r' )
             allprof = json.load( f )
             f.close() 
         if k in ('-f', '--fastq'):
