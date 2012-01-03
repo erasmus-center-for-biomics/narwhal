@@ -84,12 +84,12 @@ runfolder=${runfolder/#*Output will be written to /}
 echo "`date` Performing analysis is folder ${runfolder}"
 
 # move the log
-mv tmp.log "${runfolder}/prepare.log"
+mv tmp.log "${runfolder}/run.log"
 
 # copy the samplesheet
 cp "$samplesheet" "${runfolder}/samplesheet.txt"
 
 # run the tools
-${idir}/bin/run_tools.sh -j $MAXJOBS -m $mismatches $runfolder > ${runfolder}/run.log
+${idir}/bin/run_tools.sh -j $MAXJOBS -m $mismatches $runfolder >> ${runfolder}/run.log
 
 echo "`date` Finished"
