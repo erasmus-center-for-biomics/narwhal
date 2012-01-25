@@ -1,6 +1,6 @@
 # compile options
 CC=g++
-CFLAGS=-c -g -Wall-O4
+CFLAGS=-c -g -Wall -O4
 LDFLAGS=-g -L/usr/lib64 -static
 SOURCES=src/main.c
 OBJECTS=$(SOURCES:.c=.o)
