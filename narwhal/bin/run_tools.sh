@@ -143,6 +143,19 @@ if [[ -f $optfile ]] && [[ $(wc -l $optfile) > 0 ]] ; then
         parallel -a $optfile --colsep ';' -j $MAXJOBS "bamstats {1} {3} >> {4} ; plotter.R --prefix {3} ; quality_info.sh -p {3} -n {2} -s {4} -o {5}"
 fi
 
+# Generate overview tables of demultiplexing and alignment statistics
+optfile="$( find $RUNFOLDER -name 'demultiplex_index.param' )"
+if [[ -f $optfile ]] && [[ $(wc -l $optfile) > 0 ]] ; then
+	echo "`date` Generating demultiplexing statistics overview"
+	gawk -f ${idir}tools/demultiplex_stats.awk ${RUNFOLDER}/demultiplexed/*.index > ${RUNFOLDER}/stats/demultiplex_stats_overview.txt
+fi
+optfile="$( find $RUNFOLDER -name 'alignment.param' )"
+if [[ -f $optfile ]] && [[ $(wc -l $optfile) > 0 ]] ; then
+	echo "`date` Generating alignment statistics overview"
+	gawk -f ${idir}tools/alignment_stats.awk ${RUNFOLDER}/alignment/*/*.stats > ${RUNFOLDER}/stats/alignment_stats_overview.txt
+fi
+
+
 # DATA PACKAGING
 #
 #

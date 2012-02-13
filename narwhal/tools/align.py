@@ -91,6 +91,7 @@ if __name__ == '__main__' :
     fn_fastq = []
     fn_sam   = None
     fn_ref   = None
+    profstr  = None
     prof     = None
     pe       = False
     aopt     = []
@@ -116,7 +117,7 @@ if __name__ == '__main__' :
         if k in ('-r', '--reference'):
             fn_ref = v
         if k in ('-t', '--type'):
-            prof = v
+            profstr = v
         if k in ('-o', '--options'):
             if v.lower() != 'na' and  v.lower() != 'none':
                 aopt = v.split(',')
@@ -132,7 +133,7 @@ if __name__ == '__main__' :
         for k in allprof.keys():
             print "\t%s" % str(k)
 
-        print "profile: %s" % prof
+        print "profile: %s" % profstr
         print "FastQ: %s" % ','.join( fn_fastq )
         print "reference: %s" % fn_ref
         print "SAM file: %s" % fn_sam
@@ -143,10 +144,10 @@ if __name__ == '__main__' :
     if fn_sam == None:  usage( "No output SAM file name provided" , error=2 )
     if fn_ref == None:  usage( "No reference file provided" , error=2 )   
     if len(allprof.keys()) == 0: usage( "No application profiles were loaded" , error=2 )
-    if prof not in allprof.keys(): usage( "Profile '%s' not present in profiles" % prof, error=2)
+    if profstr not in allprof.keys(): usage( "Profile '%s' not present in profiles" % profstr, error=2)
 
     # prepare the profiles
-    prof = allprof[ prof ]
+    prof = allprof[ profstr ]
     tool = prof['tool']
     dopt = parse_option( aopt, d=prof['options'] )
     
@@ -168,7 +169,14 @@ if __name__ == '__main__' :
     elif tool.lower() == 'tophat':
         aln = Tophat( )
         #
-        d_sam = os.path.dirname( fn_sam )
+        # construct an extra foldername for Tophat to write its output
+        sample_dir = os.path.dirname( fn_sam )
+        sample_output_samname = os.path.basename( fn_sam )
+        sample_regexp=re.search("s_(\d)_(\d)_(.*)\.%s" % profstr, sample_output_samname)
+        sample_id=sample_regexp.group(3)
+        sample_lane=sample_regexp.group(1)
+        sample_read=sample_regexp.group(2)
+        d_sam = '/'.join([sample_dir, "%s_%s_%s" % (sample_id, sample_lane, sample_read)])
         aln.align( fn_ref, fn_fastq, d_sam, opt=dopt )
         fn_bam = os.path.join( d_sam, 'accepted_hits.bam' )
         if os.path.isfile( fn_bam ):
