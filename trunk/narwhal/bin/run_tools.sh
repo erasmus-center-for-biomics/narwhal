@@ -152,7 +152,7 @@ fi
 optfile="$( find $RUNFOLDER -name 'alignment.param' )"
 if [[ -f $optfile ]] && [[ $(wc -l $optfile) > 0 ]] ; then
 	echo "`date` Generating alignment statistics overview"
-	gawk -f ${idir}tools/alignment_stats.awk ${RUNFOLDER}/alignment/*/*.stats > ${RUNFOLDER}/stats/alignment_stats_overview.txt
+	gawk -f ${idir}tools/alignment_stats.awk ${RUNFOLDER}/stats/*/*.stats > ${RUNFOLDER}/stats/alignment_stats_overview.txt
 fi
 
 
