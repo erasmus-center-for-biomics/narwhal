@@ -2,7 +2,7 @@
 CC=g++
 CFLAGS=-c -g -Wall -O4
 LDFLAGS=-g -L/usr/lib64 -static
-SOURCES=src/main.c
+SOURCES=src/phredstat.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=bin/phredreport
 
