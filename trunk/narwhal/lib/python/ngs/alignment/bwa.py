@@ -85,24 +85,26 @@ class BWA(Aligner):
         if len( infiles ) == 2:            
             self._index   = index
             self._samfile = outfile
-            # saifiles = []
 
-            # perform the alignment for each read
+            # fix the output file names
             if len(saifiles) != len(infiles):
                 for f in infiles:
                     if not os.path.exists( f ):
                         logging.warn( "input file %f does not exist")
                         return None
-                    self._infile  = f
-                    self._saifile = "%s.sai" % f                
-                    self._aln( opt=opt['aln'] )
-                    saifiles.append( self._saifile )
+                    saifiles.append( "%s.sai" % f )
 
-                # gather the results
-                self.infile  = infiles
-                self.saifile = saifiles
-                retval = self._sampe( opt=opt['sampe'] )
-            
+            # actually perform the alignment
+            for i in range( len( infiles ) ) :
+                 self._infile  = infiles[i]
+                 self._saifile = saifiles[i]
+                 self._aln( opt=opt['aln'] )
+
+            # gather the results
+            self._infile  = infiles
+            self._saifile = saifiles
+            retval = self._sampe( opt=opt['sampe'] )
+
         elif len(infiles) == 1:
             self._index   = index
             self._infile  = infiles[0]
@@ -194,7 +196,7 @@ class BWA(Aligner):
         cmd = []
         cmd.append( self._locs['nice'] )
         cmd.append( self._locs['bwa'] )
-        cmd.append( self._locs['sampe'] )
+        cmd.append( 'sampe' )
 
         #
         cmd = self._add_options( cmd, opt )

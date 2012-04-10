@@ -19,19 +19,6 @@
                         "-M"  : 1
 			}
 	},
-	"genome" : {
-		"tool" : "bwa",
-		"options" : {
-			"aln" : {
-				"-t" : 12,
-				"-l" : 32,
-				"-k" : 2
-			},
-			"samse" : {
-				} 
-			},
-			"sampe" : {}
-	},
         "snp" : {
                 "tool" : "bwa",
                 "options" : {
@@ -41,9 +28,10 @@
                                 "-k" : 2
                         },
                         "samse" : {
+                                },
+			"sampe" : {
                                 }
-                        },
-			"sampe" : {}
+                        }
         },
         "snpIll" : {
                 "tool" : "bwa",
@@ -55,9 +43,10 @@
 				"-I" : ""
                         },
                         "samse" : {
+                                },
+			"sampe" : {
                                 }
-                        }, 
-			"sampe":{}
+			} 
         },
 	"rnaseq" : {
 		"tool" : "tophat",
