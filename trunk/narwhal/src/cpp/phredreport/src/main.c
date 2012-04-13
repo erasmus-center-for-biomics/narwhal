@@ -26,7 +26,8 @@ struct phredstat {
  *    the sum of the PHRED scores
  **/
 void statPhred( phredstat * p, char * qual, int offset ) {
-	int q, cn ;
+	int q ; 
+	unsigned cn ;
 
 	// set the initial values
 	p->min  = 0 ;
