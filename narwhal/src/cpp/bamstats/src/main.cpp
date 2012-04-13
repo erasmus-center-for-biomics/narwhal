@@ -28,8 +28,8 @@ void read_statistics( string filename, string outputbase ) {
   int cn ;
   string out ;
   ReadCnt *rds ;
-  BaseCnt *aligned ;
-  BaseCnt *nonaligned ;
+  // BaseCnt *aligned ;
+  // BaseCnt *nonaligned ;
 
   BamTools::BamReader reader ;
   BamTools::BamAlignment aln ;
@@ -44,7 +44,7 @@ void read_statistics( string filename, string outputbase ) {
   // build the reference ID vector
   rv = reader.GetReferenceData() ;
   refids.resize( rv.size() ) ;        // make sure we can place all the elements
-  for( cn=0; cn<rv.size(); cn++ ) {   // foreach reference sequence:
+  for( cn=0; cn<(int)rv.size(); cn++ ) {   // foreach reference sequence:
     refids[cn] = rv[cn].RefName ;     // add the sequence names
   }
   

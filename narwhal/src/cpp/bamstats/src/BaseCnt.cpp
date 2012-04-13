@@ -85,7 +85,7 @@ string BaseCnt::to_string( void ) {
   out << endl ;
   out << "Positional base counts" << endl ;
   out << "cycle\tA\tT\tC\tG\tN" << endl ;
-  for( int i=0; i<positions.size(); i++ ){    
+  for( int i=0; i<(int)positions.size(); i++ ){    
     out << (i+1) << "\t" << positions[i][BaseConst::MA] << "\t" << positions[i][BaseConst::MT] << "\t"<< positions[i][BaseConst::MC] << "\t"<< positions[i][BaseConst::MG] << "\t"<< positions[i][BaseConst::MN] << endl ;
   }
 
@@ -100,7 +100,7 @@ string BaseCnt::to_string( void ) {
 void BaseCnt::update_basepos( int pos, int base ) {
 
   // 
-  if( pos >= positions.size() ) {
+  if( pos >= (int)positions.size() ) {
     for( int i = positions.size(); i <= pos; i++ ) {          
       vector<int> nuc( 5,0 ) ;    
       positions.push_back( nuc ) ;
