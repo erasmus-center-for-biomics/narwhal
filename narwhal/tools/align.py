@@ -172,7 +172,7 @@ if __name__ == '__main__' :
         # construct an extra foldername for Tophat to write its output
         sample_dir = os.path.dirname( fn_sam )
         sample_output_samname = os.path.basename( fn_sam )
-        sample_regexp = re.search("s_(\d)_(\d)_(.*)\.%s" % profstr, sample_output_samname)
+        sample_regexp = re.search("s_(\d|NA)_(\d|NA)_(.*)\.%s" % profstr, sample_output_samname)
         sample_id     = sample_regexp.group(3)
         sample_lane   = sample_regexp.group(1)
         sample_read   = sample_regexp.group(2)
