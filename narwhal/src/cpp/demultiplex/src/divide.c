@@ -77,6 +77,8 @@ int divide( char * fninp, char * fnind, ll_item * l) {
 	r      = init_read( ) ;
 
 	while( get_read(finp, r) )  {
+
+		
 		// get the sample id, but if there was a read in the input file
 		// but no remaining index in the output file announce failure and exit
 		if( fgets( buffer, MAX_LINE, find ) == NULL ) {
