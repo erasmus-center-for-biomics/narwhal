@@ -85,7 +85,6 @@ int get_read( FILE * f, s_Read * r  ) {
 	
 	// cleanup after ourselves	
 	free( buffer )	;
-	printf( "DEBUG\t%s\t%s\t%s\n", r->id, r->seq, r->qual ) ;
 	// return the value
 	return retval ;
 }
