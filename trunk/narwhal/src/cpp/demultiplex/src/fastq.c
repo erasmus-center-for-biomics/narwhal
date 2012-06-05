@@ -64,19 +64,17 @@ int get_read( FILE * f, s_Read * r  ) {
 			if( cln == 0) {
 				// the sequence id runs from the @ sign to the end of the buffer
 				r->id    = (char *) malloc( l_len * sizeof(char) ) ;	
-				strncpy( r->id, buffer+1, l_len - 1 ) ;
-				r->id[ l_len-1 ] = '\0' ;
+				strncpy( r->id, buffer+1, l_len ) ;			// copy also the null terminator!!!!
 			} else if( cln == 1) {
 				// set the sequence field
 				r->seq    = (char *) malloc( (l_len + 1) * sizeof(char) ) ;
-                		strncpy( r->seq, buffer, l_len ) ;
-				r->seq[ l_len ] = '\0' ;
+                		strncpy( r->seq, buffer, l_len + 1 ) ;			// copy also the null terminator!!!!
 			} else if( cln == 2) {
 				// the second id field: do not process
 			} else if( cln == 3 ){
+				// the quality field 
 				r->qual = (char *) malloc( (l_len + 1) * sizeof(char) ) ;
-				strncpy( r->qual, buffer, l_len ) ;
-				r->qual[ l_len ] = '\0' ;
+				strncpy( r->qual, buffer, l_len + 1 ) ;			// copy also the null terminator!!!!
 			} else {
 				//this should never happen
 			}
