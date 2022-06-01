@@ -111,6 +111,8 @@ In the QC reports, information is present on the general alignment statistics an
 
 ### Table 1. Alignment statistics
 
+| Statistic | Value |
+| --------- | ----- |
 | Total number of reads | 49922743 |
 | Number of aligned reads | 48165331 |
 | Alignment percentage | 96.4 |

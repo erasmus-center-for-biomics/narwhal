@@ -3,16 +3,16 @@
 ## Prerequisites
 
 - Interpreters
-  -- Python (> 2,6)
-  -- BASH
-  -- R
+  - Python (> 2,6)
+  - BASH
+  - R
 - GNU/Linux software
-  -- gzip
-  -- pdflatex
-  -- nice
-  -- gawk
-  -- GCC (optional)
-  -- libz (optional)
+  - gzip
+  - pdflatex
+  - nice
+  - gawk
+  - GCC (optional)
+  - libz (optional)
 - Bioinformatics tools: see below
 
 ## Bioinformatics tools needed to run NARWHAL
@@ -25,7 +25,7 @@ NARWHAL relies on a number of previously published Bioinformatics tools. These a
 | BWA | 0.5.9 | [http://bio-bwa.sourceforge.net/](http://bio-bwa.sourceforge.net/) |
 | TopHat? | 1.3.1 | [http://tophat.cbcb.umd.edu/](http://tophat.cbcb.umd.edu/) |
 | SAMtools | 0.1.18 | [http://samtools.sourceforge.net/](http://samtools.sourceforge.net/) |
-| BAMtools (optional) | 0.9 | [https://github.com/pezmaster31/bamtools]([https://github.com/pezmaster31/bamtools) |
+| BAMtools (optional) | 0.9 | [https://github.com/pezmaster31/bamtools](https://github.com/pezmaster31/bamtools) |
 
 ## Downloading NARWHAL
 

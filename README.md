@@ -22,8 +22,9 @@ Installation instructions
 -------------------------
 
 Installation instructions are available at https://trac.nbic.nl/narwhal/wiki/Installation
+or [here in the GitHub repo](INSTALL.md)
 
 Further information
 -------------------
 
-The user guide is available https://trac.nbic.nl/narwhal/wiki/userguide
+The user guide is available https://trac.nbic.nl/narwhal/wiki/userguide or [here in the GitHub repo](UserGuide.md)
