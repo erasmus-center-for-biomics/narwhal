@@ -1,0 +1,9 @@
+#Sample name	lane	data_reads	multiplex.codes	multiplex.starts	multiplex.indexes	reference	alignment.paired_end	application
+X1	1,2	1,1	ATCACG,ATCACG	0,0	2,2	/hiseq/RawData/Genomes/Bowtie/hg19	0	chipseq
+X2	1,2	1,1	TTAGGC,TTAGGC	0,0	2,2	/hiseq/RawData/Genomes/Bowtie/hg19	0	chipseq
+X3	1,2	1,1	ACTTGA,ACTTGA	0,0	2,2	/hiseq/RawData/Genomes/Bowtie/hg19	0	chipseq
+X4	1,2	1,1	GATCAG,GATCAG	0,0	2,2	/hiseq/RawData/Genomes/Bowtie/hg19	0	chipseq
+X5	1,2	1,1	TAGCTT,TAGCTT	0,0	2,2	/hiseq/RawData/Genomes/Bowtie/hg19	0	chipseq
+X6	1,2	1,1	GGCTAC,GGCTAC	0,0	2,2	/hiseq/RawData/Genomes/Bowtie/hg19	0	chipseq
+X7	1,2	1,1	CGATGT,CGATGT	0,0	2,2	/hiseq/RawData/Genomes/Bowtie/hg19	0	chipseq
+X8	1,2	1,1	TGACCA,TGACCA	0,0	2,2	/hiseq/RawData/Genomes/Bowtie/hg19	0	chipseq

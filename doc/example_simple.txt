@@ -1,0 +1,9 @@
+#Sample name	lane	data_reads	multiplex.codes	multiplex.starts	multiplex.indexes	reference	alignment.paired_end	application
+X1	1	1;2		0	2	/hiseq/RawData/Genomes/Bowtie/mm9	0	chipseq
+X2	2	1;2		0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X3	3	1;2		0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X4	4	1;2		0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X5	5	1;2		0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X6	6	1;2		0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X7	7	1;2		0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X8	8	1;2		0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp

@@ -1,0 +1,17 @@
+#Sample name	lane	data_reads	multiplex.codes	multiplex.starts	multiplex.indexes	reference	alignment.paired_end	application
+X1	1	1;3	ATCACG	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X2	1	1;3	CGATGT	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X3	2	1;3	TTAGGC	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X4	2	1;3	TGACCA	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X5	3	1;3	ACAGTG	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X6	3	1;3	GCCAAT	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X7	4	1;3	CAGATC	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X8	4	1;3	ACTTGA	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X9	5	1;3	GATCAG	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X10	5	1;3	TAGCTT	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X11	6	1;3	GGCTAC	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X12	6	1;3	CTTGTA	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X13	7	1;3	ATCACG	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X14	7	1;3	CGATGT	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X15	8	1;3	TTAGGC	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
+X16	8	1;3	TGACCA	0	2	/hiseq/RawData/Genomes/BWA/hg19_ord/hg19_ord.fa	0	snp
