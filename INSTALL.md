@@ -37,13 +37,15 @@ NARWHAL can be easily installed on most UNIX(r) based operating systems. The sta
 > tar -xf narhwal.tar
 ``` 
 
-For the SVN download do the following:
+For the SVN download (from the NBIC trac site) do the following:
 
 ```
 svn co https://trac.nbic.nl/svn/narwhal
 ```
 
 Be warned the SVN version is bleeding edge and not guaranteed to work!
+
+Or, alternative get the tool from GitHub: https://github.com/erasmus-center-for-biomics/narwhal.git
 
 This procedure should create several files and directories in the directory similar to the following:
 
